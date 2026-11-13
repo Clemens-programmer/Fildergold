@@ -87,9 +87,9 @@
   - Bei eigener Domain diese drei Werte ausfüllen.
 */
 const CONFIG = {
-  owner: "clemens.programmer",               // z. B. "mein-benutzername"
-  repo: "Fildergold",                // z. B. "robin-hood-buch"
-  branch: "main",
+  owner: "",               // z. B. "mein-benutzername"
+  repo: "",                // z. B. "robin-hood-buch"
+  branch: "",                 // leer = Standard-Branch automatisch erkennen
   numbersFolder: "Numbers"
 };
 
@@ -99,9 +99,24 @@ const views = ["selectView","introView","numberView","contentView"];
 
 function detectRepository(){
   let owner=CONFIG.owner.trim(), repo=CONFIG.repo.trim();
-  if(!owner && location.hostname.endsWith(".github.io")) owner=location.hostname.split(".")[0];
-  if(!repo && location.hostname.endsWith(".github.io")) repo=location.pathname.split("/").filter(Boolean)[0] || `${owner}.github.io`;
+  const isGitHubPages=location.hostname.toLowerCase().endsWith(".github.io");
+  if(!owner && isGitHubPages) owner=location.hostname.split(".")[0];
+  if(!repo && isGitHubPages){
+    const firstPathPart=location.pathname.split("/").filter(Boolean)[0];
+    repo=firstPathPart || `${owner}.github.io`;
+  }
   state.owner=owner; state.repo=repo;
+}
+async function detectDefaultBranch(){
+  if(state.branch || !state.owner || !state.repo) return;
+  const url=`https://api.github.com/repos/${encodeURIComponent(state.owner)}/${encodeURIComponent(state.repo)}`;
+  const r=await fetch(url,{headers:{Accept:"application/vnd.github+json"}});
+  if(r.ok){
+    const repoInfo=await r.json();
+    state.branch=repoInfo.default_branch || "main";
+  }else{
+    state.branch="main";
+  }
 }
 function showView(id){ stopSpeech(); views.forEach(v=>$(v).classList.toggle("active",v===id)); window.scrollTo({top:0,behavior:"smooth"}); }
 function apiPath(parts){
@@ -233,7 +248,12 @@ $("stopSpeechBtn").addEventListener("click",stopSpeech);
 $("stopContentSpeechBtn").addEventListener("click",stopSpeech);
 window.addEventListener("beforeunload",stopSpeech);
 
-detectRepository(); loadStories();
+async function initialize(){
+  detectRepository();
+  await detectDefaultBranch();
+  await loadStories();
+}
+initialize();
 </script>
 </body>
 </html>
