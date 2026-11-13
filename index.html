@@ -209,6 +209,9 @@ $("homeBtn").addEventListener("click",()=>{state.title="";$("crumbTitle").textCo
 
 // Vorlesefunktion: nutzt die im Betriebssystem installierten Stimmen und bevorzugt die Systemsprache.
 let currentUtterance=null;
+let speechQueue=[];
+let speechButton=null;
+let speechSession=0;
 function speechSupported(){return "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;}
 function preferredVoice(){
   const voices=speechSynthesis.getVoices();
@@ -217,11 +220,50 @@ function preferredVoice(){
       || voices.find(v=>v.lang.toLowerCase().split("-")[0]===systemLang.split("-")[0])
       || voices.find(v=>v.default) || voices[0] || null;
 }
+function prepareSpeechText(text){
+  return String(text||"").replace(/[\u0000-\u001F\u007F]/g," ").replace(/[\u200B-\u200D\uFEFF]/g,"").replace(/\s+/g," ").trim();
+}
+function splitSpeechText(text,maxLength=240){
+  const sentences=text.match(/[^.!?…]+[.!?…]+|[^.!?…]+$/g)||[];
+  const chunks=[];
+  for(const sentence of sentences){
+    const clean=sentence.trim(); if(!clean) continue;
+    if(clean.length<=maxLength){chunks.push(clean);continue;}
+    const words=clean.split(/\s+/); let part="";
+    for(const word of words){
+      if(part && (part+" "+word).length>maxLength){chunks.push(part);part=word;}
+      else part+=(part?" ":"")+word;
+    }
+    if(part) chunks.push(part);
+  }
+  return chunks;
+}
+function finishSpeech(session){
+  if(session!==speechSession) return;
+  if(speechButton) speechButton.classList.remove("active");
+  currentUtterance=null;speechQueue=[];speechButton=null;
+  if($("speechStatus")) $("speechStatus").textContent="";
+}
 function stopSpeech(){
-  if(speechSupported()) speechSynthesis.cancel();
+  speechSession++;speechQueue=[];
+  if(speechSupported() && speechSynthesis.speaking) speechSynthesis.cancel();
   currentUtterance=null;
+  if(speechButton) speechButton.classList.remove("active");
+  speechButton=null;
   document.querySelectorAll(".speech-row .secondary").forEach(b=>b.classList.remove("active"));
   if($("speechStatus")) $("speechStatus").textContent="";
+}
+function speakNext(session,voice,lang){
+  if(session!==speechSession) return;
+  const next=speechQueue.shift();
+  if(!next){finishSpeech(session);return;}
+  const spoken=/[.!?…]$/.test(next)?next:next+".";
+  const u=new SpeechSynthesisUtterance(spoken+" ");
+  u.lang=lang;if(voice)u.voice=voice;
+  u.rate=0.98;u.pitch=1;u.volume=1;currentUtterance=u;
+  u.onend=()=>{currentUtterance=null;window.setTimeout(()=>speakNext(session,voice,lang),90);};
+  u.onerror=()=>finishSpeech(session);
+  speechSynthesis.speak(u);
 }
 function speakText(text,button){
   if(!speechSupported()){
@@ -229,15 +271,13 @@ function speakText(text,button){
     return;
   }
   stopSpeech();
-  const clean=String(text||"").trim();
+  const clean=prepareSpeechText(text);
   if(!clean){if($("speechStatus")) $("speechStatus").textContent="Es ist kein Text zum Vorlesen vorhanden.";return;}
-  const u=new SpeechSynthesisUtterance(clean);
-  u.lang=navigator.language||"de-DE";
-  const voice=preferredVoice(); if(voice){u.voice=voice;u.lang=voice.lang;}
-  u.rate=1;u.pitch=1;u.volume=1;currentUtterance=u;button.classList.add("active");
-  if($("speechStatus")) $("speechStatus").textContent=`Vorlesen mit ${voice?voice.name:"der Systemstimme"} (${u.lang})`;
-  u.onend=u.onerror=()=>{button.classList.remove("active");currentUtterance=null;if($("speechStatus")) $("speechStatus").textContent="";};
-  speechSynthesis.speak(u);
+  const voice=preferredVoice();const lang=voice?voice.lang:(navigator.language||"de-DE");
+  speechQueue=splitSpeechText(clean);speechButton=button;button.classList.add("active");
+  const session=++speechSession;
+  if($("speechStatus")) $("speechStatus").textContent=`Vorlesen mit ${voice?voice.name:"der Systemstimme"} (${lang})`;
+  speakNext(session,voice,lang);
 }
 $("speakIntroBtn").addEventListener("click",()=>speakText($("introText").textContent,$("speakIntroBtn")));
 $("speakContentBtn").addEventListener("click",()=>{
