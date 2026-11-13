@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#26313a" />
+  <title>Historisches Geschichtenbuch</title>
+  <style>
+    :root {
+      --forest:#26313a; --forest-2:#364754; --moss:#687783; --gold:#a77b45;
+      --paper:#f4f0e7; --paper-2:#dfd8ca; --ink:#292d30; --muted:#697178;
+      --danger:#963f39; --shadow:0 24px 70px rgba(13,20,25,.34);
+    }
+    *{box-sizing:border-box}
+    html,body{min-height:100%}
+    body{margin:0;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at 15% 15%,rgba(184,150,104,.14),transparent 28%),
+      radial-gradient(circle at 88% 80%,rgba(95,116,129,.24),transparent 30%),
+      linear-gradient(145deg,#182129,#354651);padding:clamp(16px,4vw,52px)}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .svg-icon{width:19px;height:19px;display:inline-block;vertical-align:-4px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.primary,.icon-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}.speech-row{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 4px}.speech-status{margin:7px 0 0;color:var(--muted);font-size:13px}.secondary{border:1px solid rgba(54,72,58,.24);background:rgba(255,255,255,.55);color:var(--forest);padding:10px 14px;border-radius:12px;font-weight:700}.secondary:hover{background:#fff}.secondary.active{background:var(--forest);color:white}
+    .shell{width:min(1040px,100%);margin:auto}
+    .brand{display:flex;align-items:center;gap:13px;color:#fff;margin:0 0 18px 8px}
+    .crest{display:grid;place-items:center;width:46px;height:46px;border:1px solid rgba(255,255,255,.22);border-radius:15px;background:rgba(255,255,255,.08);font-size:24px}
+    .brand h1{font:700 clamp(20px,3vw,29px)/1.1 Georgia,serif;margin:0;letter-spacing:.02em}
+    .brand p{margin:4px 0 0;color:#d5dde1;font-size:13px}
+    .book{position:relative;overflow:hidden;min-height:640px;border:1px solid rgba(255,255,255,.24);border-radius:28px;background:
+      linear-gradient(90deg,transparent 49.6%,rgba(88,67,39,.09) 50%,transparent 50.4%),
+      linear-gradient(120deg,var(--paper),#fffaf0 44%,var(--paper-2));box-shadow:var(--shadow)}
+    .book:before{content:"";position:absolute;inset:12px;border:1px solid rgba(108,83,42,.16);border-radius:20px;pointer-events:none}
+    .topbar{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px 24px;border-bottom:1px solid rgba(80,61,34,.12);background:rgba(255,252,244,.55);backdrop-filter:blur(8px)}
+    .crumb{display:flex;align-items:center;gap:8px;min-width:0;color:var(--muted);font-size:14px}.crumb strong{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .icon-btn{border:1px solid rgba(54,72,58,.2);background:#fffaf0;color:var(--forest);padding:9px 12px;border-radius:12px}.icon-btn:hover{background:#f2e7ce}
+    main{position:relative;z-index:1;padding:clamp(28px,6vw,68px);min-height:540px;display:flex;flex-direction:column}
+    .view{display:none;animation:rise .3s ease}.view.active{display:flex;flex:1;flex-direction:column}
+    @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .eyebrow{text-transform:uppercase;letter-spacing:.2em;color:var(--moss);font-size:12px;font-weight:800;margin:0 0 10px}
+    h2{font:700 clamp(34px,6vw,62px)/1.05 Georgia,"Times New Roman",serif;margin:0 0 18px;color:#283329}
+    .lead{max-width:650px;color:var(--muted);font-size:17px;line-height:1.7;margin:0 0 30px}
+    .story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
+    .story-card{text-align:left;border:1px solid rgba(74,67,51,.16);background:rgba(255,255,255,.54);padding:20px;border-radius:17px;color:var(--ink);transition:.2s;box-shadow:0 8px 25px rgba(80,59,30,.05)}
+    .story-card:hover,.story-card:focus-visible{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 12px 28px rgba(80,59,30,.12);outline:none}
+    .story-card span{display:block;color:var(--moss);font-size:12px;font-weight:800;margin-bottom:8px}.story-card strong{font:700 22px/1.25 Georgia,serif}
+    .prose{max-width:760px;margin:auto;width:100%}.prose h2{font-size:clamp(30px,5vw,49px)}
+    .page-text{font:400 clamp(18px,2.3vw,23px)/1.75 Georgia,serif;white-space:pre-wrap}
+    .page-counter{color:var(--muted);font-size:13px;margin-top:auto;padding-top:34px}
+    .next-row{display:flex;justify-content:flex-end;margin-top:18px}
+    .primary{border:0;border-radius:14px;background:var(--forest);color:white;padding:13px 19px;font-weight:750;box-shadow:0 8px 20px rgba(23,35,29,.2)}.primary:hover{background:#3b4d59}.primary:disabled{opacity:.5;cursor:not-allowed}
+    .number-zone{max-width:590px;margin:auto;text-align:center;width:100%}.number-zone .lead{margin-inline:auto}
+    .number-form{display:flex;gap:10px;padding:8px;background:rgba(255,255,255,.65);border:1px solid rgba(70,62,42,.16);border-radius:18px;box-shadow:0 12px 30px rgba(68,52,28,.08)}
+    .number-form input{min-width:0;flex:1;border:0;background:transparent;padding:10px 14px;font-size:22px;color:var(--ink);outline:none}.number-form input::placeholder{color:#a49a87}
+    .message{min-height:24px;margin:14px 0;color:var(--danger);font-size:14px}
+    .content-files{display:grid;gap:18px;margin-top:20px}.text-panel{font:400 18px/1.7 Georgia,serif;white-space:pre-wrap;border-left:3px solid var(--gold);padding:6px 0 6px 18px}
+    .media{display:block;width:100%;max-height:520px;object-fit:contain;border-radius:16px;background:#161d22;box-shadow:0 10px 28px rgba(45,38,26,.14)}audio.media{height:54px;background:transparent}.file-link{color:var(--forest);font-weight:700}
+    .loading{display:flex;align-items:center;justify-content:center;gap:10px;margin:auto;color:var(--muted)}.spinner{width:20px;height:20px;border:3px solid #d7cdb7;border-top-color:var(--moss);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .empty{padding:20px;border:1px dashed #b5a98f;border-radius:16px;color:var(--muted)}
+    .hide{display:none!important}
+    @media(max-width:650px){body{padding:10px}.book{border-radius:20px;min-height:calc(100vh - 90px)}main{padding:28px 22px}.topbar{padding:15px 18px}.number-form{flex-direction:column}.number-form .primary{width:100%}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="brand"><div class="crest" aria-hidden="true"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 21h16M6 18h12M8 18V9h8v9M7 9h10L12 3 7 9Z"/><path d="M10 13h4"/></svg></div><div><h1>Historisches Geschichtenbuch</h1><p>Interaktive Erzählungen aus vergangenen Zeiten</p></div></header>
+    <section class="book" aria-live="polite">
+      <div class="topbar">
+        <div class="crumb"><span>Geschichte</span><span>›</span><strong id="crumbTitle">Auswahl</strong></div>
+        <button id="homeBtn" class="icon-btn hide" type="button" aria-label="Zur Geschichtenauswahl"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg> Geschichten</button>
+      </div>
+      <main>
+        <section id="selectView" class="view active">
+          <p class="eyebrow">Historisches Themenarchiv</p><h2>Welche Geschichte möchtest du erkunden?</h2>
+          <p class="lead">Wähle ein historisches Thema. Lies die Einleitung Abschnitt für Abschnitt und gib anschließend die Nummer ein, die das Spiel vorgibt.</p>
+          <div id="storyList" class="story-grid"><div class="loading"><span class="spinner"></span> Geschichten werden geladen …</div></div>
+        </section>
+        <section id="introView" class="view"><div class="prose"><p class="eyebrow">Einleitung</p><h2 id="introTitle"></h2><div id="introText" class="page-text"></div><div class="speech-row"><button id="speakIntroBtn" class="secondary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 10v4h4l5 4V6l-5 4H5Z"/><path d="M17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg><span>Vorlesen</span></button><button id="stopSpeechBtn" class="secondary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1"/></svg>Stoppen</button></div><div id="speechStatus" class="speech-status"></div><div id="pageCounter" class="page-counter"></div><div class="next-row"><button id="nextBtn" class="primary" type="button"><span>Weiter</span><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></button></div></div></section>
+        <section id="numberView" class="view"><div class="number-zone"><p class="eyebrow">Dein nächster Abschnitt</p><h2>Welche Nummer?</h2><p class="lead">Gib die Nummer ein, zu der euch das Brettspiel geschickt hat.</p><form id="numberForm" class="number-form"><label class="hide" for="numberInput">Nummer</label><input id="numberInput" inputmode="numeric" autocomplete="off" pattern="[0-9]+" placeholder="z. B. 42" required /><button class="primary" type="submit"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>Öffnen</button></form><div id="numberMessage" class="message"></div></div></section>
+        <section id="contentView" class="view"><div class="prose"><p class="eyebrow">Abschnitt <span id="sectionNumber"></span></p><h2 id="contentTitle"></h2><div id="contentFiles" class="content-files"></div><div class="speech-row"><button id="speakContentBtn" class="secondary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 10v4h4l5 4V6l-5 4H5Z"/><path d="M17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg><span>Text vorlesen</span></button><button id="stopContentSpeechBtn" class="secondary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1"/></svg>Stoppen</button></div><div class="next-row"><button id="anotherBtn" class="primary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Andere Nummer</button></div></div></section>
+      </main>
+    </section>
+  </div>
+<script>
+/*
+  GitHub-Konfiguration:
+  - Bei GitHub Pages wird owner/repo automatisch aus der Adresse erkannt.
+  - Bei eigener Domain diese drei Werte ausfüllen.
+*/
+const CONFIG = {
+  owner: "",               // z. B. "mein-benutzername"
+  repo: "",                // z. B. "robin-hood-buch"
+  branch: "main",
+  numbersFolder: "Numbers"
+};
+
+const state = { owner:"", repo:"", branch:CONFIG.branch, title:"", introPages:[], introIndex:0 };
+const $ = id => document.getElementById(id);
+const views = ["selectView","introView","numberView","contentView"];
+
+function detectRepository(){
+  let owner=CONFIG.owner.trim(), repo=CONFIG.repo.trim();
+  if(!owner && location.hostname.endsWith(".github.io")) owner=location.hostname.split(".")[0];
+  if(!repo && location.hostname.endsWith(".github.io")) repo=location.pathname.split("/").filter(Boolean)[0] || `${owner}.github.io`;
+  state.owner=owner; state.repo=repo;
+}
+function showView(id){ stopSpeech(); views.forEach(v=>$(v).classList.toggle("active",v===id)); window.scrollTo({top:0,behavior:"smooth"}); }
+function apiPath(parts){
+  const path=parts.map(encodeURIComponent).join("/");
+  return `https://api.github.com/repos/${encodeURIComponent(state.owner)}/${encodeURIComponent(state.repo)}/contents/${path}?ref=${encodeURIComponent(state.branch)}`;
+}
+async function githubContents(parts){
+  if(!state.owner||!state.repo) throw new Error("Repository nicht erkannt. Trage owner und repo oben in der HTML-Datei bei CONFIG ein.");
+  const r=await fetch(apiPath(parts),{headers:{Accept:"application/vnd.github+json"}});
+  if(r.status===404) throw new Error("Nicht gefunden");
+  if(!r.ok) throw new Error(r.status===403?"GitHub-Anfragelimit erreicht. Bitte später erneut versuchen.":`GitHub-Fehler (${r.status})`);
+  return r.json();
+}
+async function getText(url){ const r=await fetch(url); if(!r.ok) throw new Error("Text konnte nicht geladen werden."); return r.text(); }
+function friendlyName(name){ try{return decodeURIComponent(name).replace(/[-_]+/g," ");}catch{return name;} }
+function setBusy(container,text){ container.innerHTML=`<div class="loading"><span class="spinner"></span>${text}</div>`; }
+
+async function loadStories(){
+  const box=$("storyList"); setBusy(box,"Geschichten werden geladen …");
+  try{
+    const items=await githubContents([CONFIG.numbersFolder]);
+    const dirs=items.filter(x=>x.type==="dir").sort((a,b)=>a.name.localeCompare(b.name,"de",{numeric:true}));
+    if(!dirs.length){box.innerHTML='<div class="empty">Im Ordner „Numbers“ wurden keine Geschichten gefunden.</div>';return;}
+    box.innerHTML="";
+    dirs.forEach((item,i)=>{
+      const b=document.createElement("button"); b.className="story-card"; b.type="button";
+      b.innerHTML=`<span>GESCHICHTE ${String(i+1).padStart(2,"0")}</span><strong></strong>`;
+      b.querySelector("strong").textContent=friendlyName(item.name);
+      b.addEventListener("click",()=>openStory(item.name)); box.appendChild(b);
+    });
+  }catch(e){box.innerHTML=`<div class="empty"><strong>Geschichten konnten nicht geladen werden.</strong><br>${escapeHtml(e.message)}</div>`;}
+}
+async function openStory(folder){
+  state.title=folder; $("crumbTitle").textContent=friendlyName(folder); $("homeBtn").classList.remove("hide");
+  $("introTitle").textContent=friendlyName(folder); showView("introView"); setBusy($("introText"),"Einleitung wird geladen …"); $("nextBtn").disabled=true;
+  try{
+    const items=await githubContents([CONFIG.numbersFolder,folder]);
+    const story=items.find(x=>x.type==="file"&&x.name.toLowerCase()==="story.txt");
+    if(!story) throw new Error("In dieser Geschichte fehlt die Datei story.txt.");
+    const text=(await getText(story.download_url)).replace(/\r\n/g,"\n").trim();
+    state.introPages=text?text.split(/\n\s*\n+/).map(x=>x.trim()).filter(Boolean):["Die historische Erzählung beginnt …"];
+    state.introIndex=0; renderIntro(); $("nextBtn").disabled=false;
+  }catch(e){$("introText").innerHTML=`<div class="empty">${escapeHtml(e.message)}</div>`;$("pageCounter").textContent="";}
+}
+function renderIntro(){
+  $("introText").textContent=state.introPages[state.introIndex];
+  $("pageCounter").textContent=`Seite ${state.introIndex+1} von ${state.introPages.length}`;
+  $("nextBtn").querySelector("span").textContent=state.introIndex===state.introPages.length-1?"Zur Nummerneingabe":"Weiter";
+}
+$("nextBtn").addEventListener("click",()=>{
+  if(state.introIndex<state.introPages.length-1){state.introIndex++;renderIntro();}
+  else{showNumberInput();}
+});
+function showNumberInput(){showView("numberView");$("numberMessage").textContent="";$("numberInput").value="";setTimeout(()=>$("numberInput").focus(),100);}
+
+$("numberForm").addEventListener("submit",async e=>{
+  e.preventDefault(); const number=$("numberInput").value.trim();
+  if(!/^\d+$/.test(number)){ $("numberMessage").textContent="Bitte gib nur Ziffern ein."; return; }
+  $("numberMessage").textContent="Abschnitt wird gesucht …";
+  try{
+    const items=await githubContents([CONFIG.numbersFolder,state.title,number]);
+    await renderSection(number,items); $("numberMessage").textContent="";
+  }catch(err){$("numberMessage").textContent=err.message==="Nicht gefunden"?`Die Nummer ${number} gibt es in dieser Geschichte nicht.`:err.message;}
+});
+async function renderSection(number,items){
+  $("sectionNumber").textContent=number; $("contentTitle").textContent=`Nummer ${number}`; const box=$("contentFiles"); setBusy(box,"Inhalte werden geladen …"); showView("contentView");
+  const files=items.filter(x=>x.type==="file").sort((a,b)=>a.name.localeCompare(b.name,"de",{numeric:true}));
+  box.innerHTML="";
+  if(!files.length){box.innerHTML='<div class="empty">Dieser Abschnitt enthält noch keine Dateien.</div>';return;}
+  for(const file of files){
+    const ext=file.name.split(".").pop().toLowerCase(); let el;
+    if(ext==="txt"){
+      el=document.createElement("div");el.className="text-panel";
+      try{el.textContent=await getText(file.download_url);}catch{el.textContent=`${file.name} konnte nicht geladen werden.`;}
+    } else if(["png","jpg","jpeg","webp","gif"].includes(ext)){
+      el=document.createElement("img");el.className="media";el.src=file.download_url;el.alt=friendlyName(file.name);el.loading="lazy";
+    } else if(ext==="mp4"){
+      el=document.createElement("video");el.className="media";el.src=file.download_url;el.controls=true;el.preload="metadata";
+    } else if(ext==="mp3"){
+      el=document.createElement("audio");el.className="media";el.src=file.download_url;el.controls=true;el.preload="metadata";
+    } else continue;
+    box.appendChild(el);
+  }
+  if(!box.children.length)box.innerHTML='<div class="empty">Keine unterstützten Dateien gefunden.</div>';
+}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));}
+$("anotherBtn").addEventListener("click",showNumberInput);
+$("homeBtn").addEventListener("click",()=>{state.title="";$("crumbTitle").textContent="Auswahl";$("homeBtn").classList.add("hide");showView("selectView");});
+
+
+// Vorlesefunktion: nutzt die im Betriebssystem installierten Stimmen und bevorzugt die Systemsprache.
+let currentUtterance=null;
+function speechSupported(){return "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;}
+function preferredVoice(){
+  const voices=speechSynthesis.getVoices();
+  const systemLang=(navigator.language||document.documentElement.lang||"de-DE").toLowerCase();
+  return voices.find(v=>v.lang.toLowerCase()===systemLang)
+      || voices.find(v=>v.lang.toLowerCase().split("-")[0]===systemLang.split("-")[0])
+      || voices.find(v=>v.default) || voices[0] || null;
+}
+function stopSpeech(){
+  if(speechSupported()) speechSynthesis.cancel();
+  currentUtterance=null;
+  document.querySelectorAll(".speech-row .secondary").forEach(b=>b.classList.remove("active"));
+  if($("speechStatus")) $("speechStatus").textContent="";
+}
+function speakText(text,button){
+  if(!speechSupported()){
+    if($("speechStatus")) $("speechStatus").textContent="Die Vorlesefunktion wird von diesem Browser nicht unterstützt.";
+    return;
+  }
+  stopSpeech();
+  const clean=String(text||"").trim();
+  if(!clean){if($("speechStatus")) $("speechStatus").textContent="Es ist kein Text zum Vorlesen vorhanden.";return;}
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang=navigator.language||"de-DE";
+  const voice=preferredVoice(); if(voice){u.voice=voice;u.lang=voice.lang;}
+  u.rate=1;u.pitch=1;u.volume=1;currentUtterance=u;button.classList.add("active");
+  if($("speechStatus")) $("speechStatus").textContent=`Vorlesen mit ${voice?voice.name:"der Systemstimme"} (${u.lang})`;
+  u.onend=u.onerror=()=>{button.classList.remove("active");currentUtterance=null;if($("speechStatus")) $("speechStatus").textContent="";};
+  speechSynthesis.speak(u);
+}
+$("speakIntroBtn").addEventListener("click",()=>speakText($("introText").textContent,$("speakIntroBtn")));
+$("speakContentBtn").addEventListener("click",()=>{
+  const texts=[...$("contentFiles").querySelectorAll(".text-panel")].map(x=>x.textContent).join("\n\n");
+  speakText(texts,$("speakContentBtn"));
+});
+$("stopSpeechBtn").addEventListener("click",stopSpeech);
+$("stopContentSpeechBtn").addEventListener("click",stopSpeech);
+window.addEventListener("beforeunload",stopSpeech);
+
+detectRepository(); loadStories();
+</script>
+</body>
+</html>
