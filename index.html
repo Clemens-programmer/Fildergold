@@ -4,82 +4,44 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#26313a" />
-  <title>Historisches Geschichtenbuch</title>
+  <title>Fildergold</title>
   <style>
-    :root {
-      --forest:#26313a; --forest-2:#364754; --moss:#687783; --gold:#a77b45;
-      --paper:#f4f0e7; --paper-2:#dfd8ca; --ink:#292d30; --muted:#697178;
-      --danger:#963f39; --shadow:0 24px 70px rgba(13,20,25,.34);
-    }
-    *{box-sizing:border-box}
-    html,body{min-height:100%}
-    body{margin:0;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:
-      radial-gradient(circle at 15% 15%,rgba(184,150,104,.14),transparent 28%),
-      radial-gradient(circle at 88% 80%,rgba(95,116,129,.24),transparent 30%),
-      linear-gradient(145deg,#182129,#354651);padding:clamp(16px,4vw,52px)}
-    button,input{font:inherit}
-    button{cursor:pointer}
-    .svg-icon{width:19px;height:19px;display:inline-block;vertical-align:-4px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.primary,.icon-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}.speech-row{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 4px}.speech-status{margin:7px 0 0;color:var(--muted);font-size:13px}.secondary{border:1px solid rgba(54,72,58,.24);background:rgba(255,255,255,.55);color:var(--forest);padding:10px 14px;border-radius:12px;font-weight:700}.secondary:hover{background:#fff}.secondary.active{background:var(--forest);color:white}
-    .shell{width:min(1040px,100%);margin:auto}
-    .brand{display:flex;align-items:center;gap:13px;color:#fff;margin:0 0 18px 8px}
-    .crest{display:grid;place-items:center;width:46px;height:46px;border:1px solid rgba(255,255,255,.22);border-radius:15px;background:rgba(255,255,255,.08);font-size:24px}
-    .brand h1{font:700 clamp(20px,3vw,29px)/1.1 Georgia,serif;margin:0;letter-spacing:.02em}
-    .brand p{margin:4px 0 0;color:#d5dde1;font-size:13px}
-    .book{position:relative;overflow:hidden;min-height:640px;border:1px solid rgba(255,255,255,.24);border-radius:28px;background:
-      linear-gradient(90deg,transparent 49.6%,rgba(88,67,39,.09) 50%,transparent 50.4%),
-      linear-gradient(120deg,var(--paper),#fffaf0 44%,var(--paper-2));box-shadow:var(--shadow)}
-    .book:before{content:"";position:absolute;inset:12px;border:1px solid rgba(108,83,42,.16);border-radius:20px;pointer-events:none}
-    .topbar{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px 24px;border-bottom:1px solid rgba(80,61,34,.12);background:rgba(255,252,244,.55);backdrop-filter:blur(8px)}
-    .crumb{display:flex;align-items:center;gap:8px;min-width:0;color:var(--muted);font-size:14px}.crumb strong{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .icon-btn{border:1px solid rgba(54,72,58,.2);background:#fffaf0;color:var(--forest);padding:9px 12px;border-radius:12px}.icon-btn:hover{background:#f2e7ce}
-    main{position:relative;z-index:1;padding:clamp(28px,6vw,68px);min-height:540px;display:flex;flex-direction:column}
-    .view{display:none;animation:rise .3s ease}.view.active{display:flex;flex:1;flex-direction:column}
-    @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    .eyebrow{text-transform:uppercase;letter-spacing:.2em;color:var(--moss);font-size:12px;font-weight:800;margin:0 0 10px}
-    h2{font:700 clamp(34px,6vw,62px)/1.05 Georgia,"Times New Roman",serif;margin:0 0 18px;color:#283329}
-    .lead{max-width:650px;color:var(--muted);font-size:17px;line-height:1.7;margin:0 0 30px}
-    .story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
-    .story-card{text-align:left;border:1px solid rgba(74,67,51,.16);background:rgba(255,255,255,.54);padding:20px;border-radius:17px;color:var(--ink);transition:.2s;box-shadow:0 8px 25px rgba(80,59,30,.05)}
-    .story-card:hover,.story-card:focus-visible{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 12px 28px rgba(80,59,30,.12);outline:none}
-    .story-card span{display:block;color:var(--moss);font-size:12px;font-weight:800;margin-bottom:8px}.story-card strong{font:700 22px/1.25 Georgia,serif}
-    .prose{max-width:760px;margin:auto;width:100%}.prose h2{font-size:clamp(30px,5vw,49px)}
-    .page-text{font:400 clamp(18px,2.3vw,23px)/1.75 Georgia,serif;white-space:pre-wrap}
-    .page-counter{color:var(--muted);font-size:13px;margin-top:auto;padding-top:34px}
-    .next-row{display:flex;justify-content:flex-end;margin-top:18px}
-    .primary{border:0;border-radius:14px;background:var(--forest);color:white;padding:13px 19px;font-weight:750;box-shadow:0 8px 20px rgba(23,35,29,.2)}.primary:hover{background:#3b4d59}.primary:disabled{opacity:.5;cursor:not-allowed}
-    .number-zone{max-width:590px;margin:auto;text-align:center;width:100%}.number-zone .lead{margin-inline:auto}
-    .number-form{display:flex;gap:10px;padding:8px;background:rgba(255,255,255,.65);border:1px solid rgba(70,62,42,.16);border-radius:18px;box-shadow:0 12px 30px rgba(68,52,28,.08)}
-    .number-form input{min-width:0;flex:1;border:0;background:transparent;padding:10px 14px;font-size:22px;color:var(--ink);outline:none}.number-form input::placeholder{color:#a49a87}
-    .message{min-height:24px;margin:14px 0;color:var(--danger);font-size:14px}
-    .content-files{display:grid;gap:18px;margin-top:20px}.text-panel{font:400 18px/1.7 Georgia,serif;white-space:pre-wrap;border-left:3px solid var(--gold);padding:6px 0 6px 18px}
-    .media{display:block;width:100%;max-height:520px;object-fit:contain;border-radius:16px;background:#161d22;box-shadow:0 10px 28px rgba(45,38,26,.14)}audio.media{height:54px;background:transparent}.file-link{color:var(--forest);font-weight:700}
-    .loading{display:flex;align-items:center;justify-content:center;gap:10px;margin:auto;color:var(--muted)}.spinner{width:20px;height:20px;border:3px solid #d7cdb7;border-top-color:var(--moss);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-    .empty{padding:20px;border:1px dashed #b5a98f;border-radius:16px;color:var(--muted)}
-    .hide{display:none!important}
-    @media(max-width:650px){body{padding:10px}.book{border-radius:20px;min-height:calc(100vh - 90px)}main{padding:28px 22px}.topbar{padding:15px 18px}.number-form{flex-direction:column}.number-form .primary{width:100%}}
-    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-  </style>
+:root{--bg:#0b1220;--panel:#111b2d;--panel2:#17243a;--line:rgba(255,255,255,.10);--text:#f5f7fb;--muted:#aab5c5;--accent:#e3b34b;--accent2:#f5cc6a;--danger:#ff8c82;--shadow:0 24px 70px rgba(0,0,0,.28)}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0}body{color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 8% 0%,#213352 0,transparent 32%),radial-gradient(circle at 100% 100%,#263b4f 0,transparent 30%),var(--bg)}button,input{font:inherit}button{cursor:pointer}.svg-icon{width:19px;height:19px;display:block;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.shell{min-height:100vh;width:100%;display:flex;flex-direction:column}.brand{min-height:74px;display:flex;align-items:center;padding:16px clamp(20px,5vw,72px);border-bottom:1px solid var(--line);background:rgba(11,18,32,.75);backdrop-filter:blur(18px);position:sticky;top:0;z-index:20}.brand h1{font-size:clamp(20px,2.4vw,30px);margin:0;letter-spacing:-.03em}.brand p{margin:4px 0 0;color:var(--muted);font-size:13px}.book{flex:1;display:flex;flex-direction:column}.book:before{display:none}.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px clamp(20px,5vw,72px);border-bottom:1px solid var(--line);background:rgba(17,27,45,.62)}.crumb{display:flex;align-items:center;gap:8px;min-width:0;color:var(--muted);font-size:14px}.crumb strong{color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.crumb .svg-icon{width:14px;height:14px}.icon-btn,.secondary,.primary{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:12px;font-weight:750;transition:.18s}.icon-btn,.secondary{border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);padding:10px 14px}.icon-btn:hover,.secondary:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.18)}.primary{border:1px solid transparent;background:var(--accent);color:#1b160a;padding:12px 18px;box-shadow:0 9px 24px rgba(227,179,75,.16)}.primary:hover{background:var(--accent2);transform:translateY(-1px)}.primary:disabled{opacity:.5;cursor:not-allowed;transform:none}main{width:100%;max-width:1500px;margin:0 auto;flex:1;display:flex;flex-direction:column;padding:clamp(34px,6vw,88px) clamp(20px,7vw,110px)}.view{display:none;animation:rise .25s ease}.view.active{display:flex;flex:1;flex-direction:column}@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}.eyebrow{color:var(--accent2);text-transform:uppercase;letter-spacing:.18em;font-size:12px;font-weight:850;margin:0 0 12px}h2{font-size:clamp(38px,6vw,78px);line-height:1.02;letter-spacing:-.045em;margin:0 0 20px;max-width:1000px}.lead{max-width:760px;color:var(--muted);font-size:clamp(16px,2vw,20px);line-height:1.7;margin:0 0 36px}.story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;width:100%}.story-card{text-align:left;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.035));padding:24px;border-radius:18px;color:var(--text);min-height:145px;transition:.18s;box-shadow:var(--shadow)}.story-card:hover,.story-card:focus-visible{transform:translateY(-3px);border-color:rgba(227,179,75,.6);outline:none}.story-card span{display:block;color:var(--accent2);font-size:11px;font-weight:850;letter-spacing:.12em;margin-bottom:14px}.story-card strong{font-size:23px;line-height:1.25}.prose{width:min(100%,1000px);margin:0 auto}.prose h2{font-size:clamp(34px,5vw,62px)}.page-text,.text-panel{font:400 clamp(18px,2.2vw,24px)/1.75 Georgia,"Times New Roman",serif;color:#edf1f7;white-space:pre-wrap}.page-text,.text-panel{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,4vw,38px)}.text-panel{border-left:4px solid var(--accent)}.page-counter{color:var(--muted);font-size:13px;margin-top:22px}.next-row{display:flex;justify-content:flex-end;margin-top:20px}.speech-row{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 4px}.speech-status{min-height:20px;margin:8px 0 0;color:var(--muted);font-size:13px}.secondary.active{background:rgba(227,179,75,.16);border-color:rgba(227,179,75,.55);color:var(--accent2)}.number-zone{width:min(100%,700px);margin:auto;text-align:center}.number-zone .lead{margin-inline:auto}.number-form{display:flex;gap:10px;padding:8px;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:17px}.number-form input{min-width:0;flex:1;border:0;background:transparent;padding:11px 14px;font-size:22px;color:var(--text);outline:none}.number-form input::placeholder{color:#718096}.message{min-height:24px;margin:14px 0;color:var(--danger);font-size:14px}.content-files{display:grid;gap:18px;margin-top:20px}.media{display:block;width:100%;max-height:620px;object-fit:contain;border-radius:18px;background:#05080d;border:1px solid var(--line);box-shadow:var(--shadow)}audio.media{height:56px;background:transparent}.loading{display:flex;align-items:center;justify-content:center;gap:10px;margin:auto;color:var(--muted)}.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.16);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.empty{padding:22px;border:1px dashed rgba(255,255,255,.22);border-radius:16px;color:var(--muted)}.hide{display:none!important}@media(max-width:650px){.brand{position:relative}.topbar{padding:12px 16px}main{padding:32px 18px}.number-form{flex-direction:column}.number-form .primary{width:100%}.speech-row>*{flex:1}.next-row .primary{width:100%}h2{font-size:clamp(36px,12vw,54px)}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Fildergold motion and icon controls */
+body::before,body::after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(80px);opacity:.28;pointer-events:none;animation:ambientFloat 14s ease-in-out infinite alternate}body::before{width:38vw;height:38vw;left:-12vw;top:-14vw;background:#385786}body::after{width:34vw;height:34vw;right:-10vw;bottom:-14vw;background:#886b2c;animation-delay:-7s}@keyframes ambientFloat{to{transform:translate3d(5vw,4vh,0) scale(1.12)}}
+.icon-only{width:46px;height:46px;padding:0!important;border-radius:14px!important;position:relative}.icon-only .svg-icon{width:21px;height:21px}.icon-only::after{content:attr(data-tooltip);position:absolute;z-index:60;left:50%;bottom:calc(100% + 10px);transform:translate(-50%,6px);white-space:nowrap;padding:7px 10px;border-radius:8px;background:#050a12;color:#fff;font-size:12px;font-weight:650;opacity:0;pointer-events:none;transition:.18s;box-shadow:0 8px 25px rgba(0,0,0,.3)}.icon-only:hover::after,.icon-only:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+.brand{animation:headerDrop .55s cubic-bezier(.2,.8,.2,1)}@keyframes headerDrop{from{opacity:0;transform:translateY(-20px)}}
+.view.active>*{animation:contentReveal .55s cubic-bezier(.2,.8,.2,1) both}.view.active>*:nth-child(2){animation-delay:.06s}.view.active>*:nth-child(3){animation-delay:.12s}.view.active>*:nth-child(4){animation-delay:.18s}@keyframes contentReveal{from{opacity:0;transform:translateY(18px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+.story-card{position:relative;overflow:hidden;cursor:pointer}.story-card::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.11) 48%,transparent 75%);transform:translateX(-120%);transition:transform .65s}.story-card:hover::before{transform:translateX(120%)}.story-card::after{content:"";position:absolute;right:22px;bottom:22px;width:20px;height:20px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23f5cc6a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M5 12h14M14 7l5 5-5 5'/%3E%3C/svg%3E");transition:.2s}.story-card:hover::after{transform:translateX(4px)}
+.help-btn{border:1px solid rgba(227,179,75,.42);background:rgba(227,179,75,.10);color:var(--accent2);padding:10px 15px;border-radius:12px;font-weight:800;display:inline-flex;align-items:center;gap:8px;transition:.2s}.help-btn:hover{background:rgba(227,179,75,.18);transform:translateY(-2px)}
+.top-actions{display:flex;align-items:center;gap:10px}.modal-backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(3,7,13,.76);backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:.25s}.modal-backdrop.open{opacity:1;visibility:visible}.modal{width:min(720px,100%);max-height:min(760px,90vh);overflow:auto;background:linear-gradient(145deg,#17243a,#101827);border:1px solid rgba(255,255,255,.14);border-radius:24px;box-shadow:0 35px 100px rgba(0,0,0,.55);padding:clamp(24px,5vw,44px);transform:translateY(20px) scale(.97);transition:.3s cubic-bezier(.2,.8,.2,1)}.modal-backdrop.open .modal{transform:none}.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.modal h2{font-size:clamp(30px,5vw,48px);margin-bottom:14px}.instructions{display:grid;gap:14px;margin-top:24px;counter-reset:steps}.instruction{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035)}.instruction::before{counter-increment:steps;content:counter(steps);display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--accent);color:#181208;font-weight:900}.instruction h3{margin:1px 0 5px;font-size:17px}.instruction p{margin:0;color:var(--muted);line-height:1.55}.modal-note{margin:18px 0 0;padding:14px 16px;border-left:3px solid var(--accent);background:rgba(227,179,75,.08);color:#dae2ec;border-radius:0 12px 12px 0;line-height:1.55}
+@media(max-width:650px){.topbar{align-items:flex-start}.top-actions{flex-wrap:wrap;justify-content:flex-end}.icon-only{width:44px!important;flex:none!important}.help-btn{font-size:13px}.icon-only::after{display:none}.instruction{grid-template-columns:38px 1fr}}
+@media(prefers-reduced-motion:reduce){body::before,body::after{display:none}}
+.instruction-text{display:grid;gap:14px}.instruction-text p{margin:0;color:#dce4ee;line-height:1.7}.instruction-text h3{color:var(--accent2)}.instruction-media{width:100%;max-height:420px;object-fit:contain;border-radius:14px}.instruction-error{color:var(--muted);line-height:1.65}</style>
 </head>
 <body>
   <div class="shell">
-    <header class="brand"><div class="crest" aria-hidden="true"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 21h16M6 18h12M8 18V9h8v9M7 9h10L12 3 7 9Z"/><path d="M10 13h4"/></svg></div><div><h1>Historisches Geschichtenbuch</h1><p>Interaktive Erzählungen aus vergangenen Zeiten</p></div></header>
+    <header class="brand"><div><h1>Fildergold</h1><p>Historische Geschichten interaktiv erleben</p></div></header>
     <section class="book" aria-live="polite">
       <div class="topbar">
-        <div class="crumb"><span>Geschichte</span><span>›</span><strong id="crumbTitle">Auswahl</strong></div>
-        <button id="homeBtn" class="icon-btn hide" type="button" aria-label="Zur Geschichtenauswahl"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg> Geschichten</button>
+        <div class="crumb"><span>Geschichte</span><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg><strong id="crumbTitle">Auswahl</strong></div>
+        <div class="top-actions"><button id="howBtn" class="help-btn" type="button"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.7 1.8c-1 .7-1.5 1.2-1.5 2.2M12 17h.01"/></svg>So funktioniert’s</button><button id="homeBtn" class="icon-btn icon-only hide" type="button" aria-label="Zur Geschichtenauswahl" data-tooltip="Geschichten"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></button></div>
       </div>
       <main>
         <section id="selectView" class="view active">
-          <p class="eyebrow">Historisches Themenarchiv</p><h2>Welche Geschichte möchtest du erkunden?</h2>
-          <p class="lead">Wähle ein historisches Thema. Lies die Einleitung Abschnitt für Abschnitt und gib anschließend die Nummer ein, die das Spiel vorgibt.</p>
+          <p class="eyebrow">Fildergold · Geschichtenarchiv</p><h2>Welche Geschichte möchtest du spielen?</h2>
+          <p class="lead">Wähle eine Geschichte aus Fildergold. Lies die Einleitung Abschnitt für Abschnitt und gib anschließend die Nummer ein, die das Brettspiel vorgibt.</p>
           <div id="storyList" class="story-grid"><div class="loading"><span class="spinner"></span> Geschichten werden geladen …</div></div>
         </section>
-        <section id="introView" class="view"><div class="prose"><p class="eyebrow">Einleitung</p><h2 id="introTitle"></h2><div id="introText" class="page-text"></div><div class="speech-row"><button id="speakIntroBtn" class="secondary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 10v4h4l5 4V6l-5 4H5Z"/><path d="M17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg><span>Vorlesen</span></button><button id="stopSpeechBtn" class="secondary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1"/></svg>Stoppen</button></div><div id="speechStatus" class="speech-status"></div><div id="pageCounter" class="page-counter"></div><div class="next-row"><button id="nextBtn" class="primary" type="button"><span>Weiter</span><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></button></div></div></section>
-        <section id="numberView" class="view"><div class="number-zone"><p class="eyebrow">Dein nächster Abschnitt</p><h2>Welche Nummer?</h2><p class="lead">Gib die Nummer ein, zu der euch das Brettspiel geschickt hat.</p><form id="numberForm" class="number-form"><label class="hide" for="numberInput">Nummer</label><input id="numberInput" inputmode="numeric" autocomplete="off" pattern="[0-9]+" placeholder="z. B. 42" required /><button class="primary" type="submit"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>Öffnen</button></form><div id="numberMessage" class="message"></div></div></section>
-        <section id="contentView" class="view"><div class="prose"><p class="eyebrow">Abschnitt <span id="sectionNumber"></span></p><h2 id="contentTitle"></h2><div id="contentFiles" class="content-files"></div><div class="speech-row"><button id="speakContentBtn" class="secondary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 10v4h4l5 4V6l-5 4H5Z"/><path d="M17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg><span>Text vorlesen</span></button><button id="stopContentSpeechBtn" class="secondary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1"/></svg>Stoppen</button></div><div class="next-row"><button id="anotherBtn" class="primary" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Andere Nummer</button></div></div></section>
+        <section id="introView" class="view"><div class="prose"><p class="eyebrow">Einleitung</p><h2 id="introTitle"></h2><div id="introText" class="page-text"></div><div class="speech-row"><button id="speakIntroBtn" class="secondary icon-only" type="button" aria-label="Einleitung vorlesen" data-tooltip="Vorlesen"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 10v4h4l5 4V6l-5 4H5Z"/><path d="M17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg></button><button id="stopSpeechBtn" class="secondary icon-only" type="button" aria-label="Vorlesen pausieren" data-tooltip="Pausieren"><svg class="svg-icon pause-icon" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button></div><div id="speechStatus" class="speech-status"></div><div id="pageCounter" class="page-counter"></div><div class="next-row"><button id="nextBtn" class="primary icon-only" type="button" aria-label="Weiter" data-tooltip="Weiter"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></button></div></div></section>
+        <section id="numberView" class="view"><div class="number-zone"><p class="eyebrow">Dein nächster Abschnitt</p><h2>Welche Nummer?</h2><p class="lead">Gib die Nummer ein, zu der euch das Brettspiel geschickt hat.</p><form id="numberForm" class="number-form"><label class="hide" for="numberInput">Nummer</label><input id="numberInput" inputmode="numeric" autocomplete="off" pattern="[0-9]+" placeholder="z. B. 42" required /><button class="primary icon-only" type="submit" aria-label="Nummer öffnen" data-tooltip="Öffnen"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg></button></form><div id="numberMessage" class="message"></div></div></section>
+        <section id="contentView" class="view"><div class="prose"><p class="eyebrow">Abschnitt <span id="sectionNumber"></span></p><h2 id="contentTitle"></h2><div id="contentFiles" class="content-files"></div><div class="speech-row"><button id="speakContentBtn" class="secondary icon-only" type="button" aria-label="Text vorlesen" data-tooltip="Vorlesen"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 10v4h4l5 4V6l-5 4H5Z"/><path d="M17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg></button><button id="stopContentSpeechBtn" class="secondary icon-only" type="button" aria-label="Vorlesen pausieren" data-tooltip="Pausieren"><svg class="svg-icon pause-icon" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button></div><div class="next-row"><button id="anotherBtn" class="primary icon-only" type="button" aria-label="Andere Nummer eingeben" data-tooltip="Andere Nummer"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div></section>
       </main>
     </section>
   </div>
+<div id="howModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="howTitle" aria-hidden="true"><div class="modal"><div class="modal-head"><div><p class="eyebrow">Spielanleitung</p><h2 id="howTitle">So funktioniert Fildergold</h2></div><button id="closeHowBtn" class="icon-btn icon-only" type="button" aria-label="Anleitung schließen" data-tooltip="Schließen"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div id="instructionsContent" class="instructions"><div class="loading"><span class="spinner"></span>Anleitung wird geladen …</div></div></div></div>
 <script>
 /*
   GitHub-Konfiguration:
@@ -142,7 +104,7 @@ async function loadStories(){
     if(!dirs.length){box.innerHTML='<div class="empty">Im Ordner „Numbers“ wurden keine Geschichten gefunden.</div>';return;}
     box.innerHTML="";
     dirs.forEach((item,i)=>{
-      const b=document.createElement("button"); b.className="story-card"; b.type="button";
+      const b=document.createElement("button"); b.className="story-card"; b.type="button"; b.setAttribute("aria-label",`Geschichte ${friendlyName(item.name)} öffnen`);
       b.innerHTML=`<span>GESCHICHTE ${String(i+1).padStart(2,"0")}</span><strong></strong>`;
       b.querySelector("strong").textContent=friendlyName(item.name);
       b.addEventListener("click",()=>openStory(item.name)); box.appendChild(b);
@@ -164,7 +126,7 @@ async function openStory(folder){
 function renderIntro(){
   $("introText").textContent=state.introPages[state.introIndex];
   $("pageCounter").textContent=`Seite ${state.introIndex+1} von ${state.introPages.length}`;
-  $("nextBtn").querySelector("span").textContent=state.introIndex===state.introPages.length-1?"Zur Nummerneingabe":"Weiter";
+  const nextLabel=state.introIndex===state.introPages.length-1?"Zur Nummerneingabe":"Weiter"; $("nextBtn").setAttribute("aria-label",nextLabel); $("nextBtn").dataset.tooltip=nextLabel;
 }
 $("nextBtn").addEventListener("click",()=>{
   if(state.introIndex<state.introPages.length-1){state.introIndex++;renderIntro();}
@@ -209,84 +171,77 @@ $("homeBtn").addEventListener("click",()=>{state.title="";$("crumbTitle").textCo
 
 // Vorlesefunktion: nutzt die im Betriebssystem installierten Stimmen und bevorzugt die Systemsprache.
 let currentUtterance=null;
-let speechQueue=[];
 let speechButton=null;
-let speechSession=0;
+let speechPaused=false;
 function speechSupported(){return "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;}
 function preferredVoice(){
   const voices=speechSynthesis.getVoices();
-  const systemLang=(navigator.language||document.documentElement.lang||"de-DE").toLowerCase();
-  return voices.find(v=>v.lang.toLowerCase()===systemLang)
-      || voices.find(v=>v.lang.toLowerCase().split("-")[0]===systemLang.split("-")[0])
-      || voices.find(v=>v.default) || voices[0] || null;
+  const language=(navigator.language||"de-DE").toLowerCase();
+  return voices.find(v=>v.lang.toLowerCase()===language)||voices.find(v=>v.lang.toLowerCase().startsWith(language.split("-")[0]))||voices.find(v=>v.default)||voices[0]||null;
 }
-function prepareSpeechText(text){
-  return String(text||"").replace(/[\u0000-\u001F\u007F]/g," ").replace(/[\u200B-\u200D\uFEFF]/g,"").replace(/\s+/g," ").trim();
+function cleanSpeechText(text){
+  let value=String(text||"").replace(/[\u0000-\u001f\u007f\u200b-\u200d\ufeff]/g," ").replace(/\s+/g," ").trim();
+  value=value.replace(/[\s.,;:!?…\-–—]+$/g,"").trim();
+  return value?value+".":"";
 }
-function splitSpeechText(text,maxLength=240){
-  const sentences=text.match(/[^.!?…]+[.!?…]+|[^.!?…]+$/g)||[];
-  const chunks=[];
-  for(const sentence of sentences){
-    const clean=sentence.trim(); if(!clean) continue;
-    if(clean.length<=maxLength){chunks.push(clean);continue;}
-    const words=clean.split(/\s+/); let part="";
-    for(const word of words){
-      if(part && (part+" "+word).length>maxLength){chunks.push(part);part=word;}
-      else part+=(part?" ":"")+word;
-    }
-    if(part) chunks.push(part);
-  }
-  return chunks;
+function resetPauseButtons(){
+  [["stopSpeechBtn","Pausieren"],["stopContentSpeechBtn","Pausieren"]].forEach(([id,label])=>{
+    const b=$(id);if(!b)return;b.classList.remove("active");b.setAttribute("aria-label",label);b.dataset.tooltip=label;
+    b.querySelector("svg").innerHTML='<path d="M8 5v14M16 5v14"/>';
+  });
 }
-function finishSpeech(session){
-  if(session!==speechSession) return;
-  if(speechButton) speechButton.classList.remove("active");
-  currentUtterance=null;speechQueue=[];speechButton=null;
-  if($("speechStatus")) $("speechStatus").textContent="";
+function finishSpeech(){
+  if(speechButton)speechButton.classList.remove("active");
+  currentUtterance=null;speechButton=null;speechPaused=false;resetPauseButtons();
+  if($("speechStatus"))$("speechStatus").textContent="";
 }
 function stopSpeech(){
-  speechSession++;speechQueue=[];
-  if(speechSupported() && speechSynthesis.speaking) speechSynthesis.cancel();
-  currentUtterance=null;
-  if(speechButton) speechButton.classList.remove("active");
-  speechButton=null;
-  document.querySelectorAll(".speech-row .secondary").forEach(b=>b.classList.remove("active"));
-  if($("speechStatus")) $("speechStatus").textContent="";
+  if(speechSupported())speechSynthesis.cancel();
+  finishSpeech();
 }
-function speakNext(session,voice,lang){
-  if(session!==speechSession) return;
-  const next=speechQueue.shift();
-  if(!next){finishSpeech(session);return;}
-  const spoken=/[.!?…]$/.test(next)?next:next+".";
-  const u=new SpeechSynthesisUtterance(spoken+" ");
-  u.lang=lang;if(voice)u.voice=voice;
-  u.rate=0.98;u.pitch=1;u.volume=1;currentUtterance=u;
-  u.onend=()=>{currentUtterance=null;window.setTimeout(()=>speakNext(session,voice,lang),90);};
-  u.onerror=()=>finishSpeech(session);
-  speechSynthesis.speak(u);
+function toggleSpeechPause(button){
+  if(!speechSupported()||!currentUtterance)return;
+  const icon=button.querySelector("svg");
+  if(speechPaused){
+    speechSynthesis.resume();speechPaused=false;button.classList.remove("active");button.setAttribute("aria-label","Pausieren");button.dataset.tooltip="Pausieren";icon.innerHTML='<path d="M8 5v14M16 5v14"/>';
+    if($("speechStatus"))$("speechStatus").textContent="Vorlesen wird fortgesetzt …";
+  }else{
+    speechSynthesis.pause();speechPaused=true;button.classList.add("active");button.setAttribute("aria-label","Fortsetzen");button.dataset.tooltip="Fortsetzen";icon.innerHTML='<path d="m8 5 11 7-11 7V5Z"/>';
+    if($("speechStatus"))$("speechStatus").textContent="Vorlesen pausiert";
+  }
 }
 function speakText(text,button){
-  if(!speechSupported()){
-    if($("speechStatus")) $("speechStatus").textContent="Die Vorlesefunktion wird von diesem Browser nicht unterstützt.";
-    return;
-  }
+  if(!speechSupported()){if($("speechStatus"))$("speechStatus").textContent="Die Vorlesefunktion wird von diesem Browser nicht unterstützt.";return;}
   stopSpeech();
-  const clean=prepareSpeechText(text);
-  if(!clean){if($("speechStatus")) $("speechStatus").textContent="Es ist kein Text zum Vorlesen vorhanden.";return;}
-  const voice=preferredVoice();const lang=voice?voice.lang:(navigator.language||"de-DE");
-  speechQueue=splitSpeechText(clean);speechButton=button;button.classList.add("active");
-  const session=++speechSession;
-  if($("speechStatus")) $("speechStatus").textContent=`Vorlesen mit ${voice?voice.name:"der Systemstimme"} (${lang})`;
-  speakNext(session,voice,lang);
+  const clean=cleanSpeechText(text);
+  if(!clean){if($("speechStatus"))$("speechStatus").textContent="Es ist kein Text zum Vorlesen vorhanden.";return;}
+  const voice=preferredVoice();const u=new SpeechSynthesisUtterance(clean);
+  if(voice){u.voice=voice;u.lang=voice.lang}else u.lang=navigator.language||"de-DE";
+  u.rate=.98;u.pitch=1;u.volume=.92;currentUtterance=u;speechButton=button;button.classList.add("active");
+  if($("speechStatus"))$("speechStatus").textContent=`Vorlesen mit ${voice?voice.name:"der Systemstimme"}`;
+  u.onend=finishSpeech;u.onerror=finishSpeech;
+  // Eine einzelne Äußerung ohne angehängte Leerzeichen verhindert den lauten macOS-Ton an Segmentgrenzen.
+  speechSynthesis.speak(u);
 }
 $("speakIntroBtn").addEventListener("click",()=>speakText($("introText").textContent,$("speakIntroBtn")));
 $("speakContentBtn").addEventListener("click",()=>{
   const texts=[...$("contentFiles").querySelectorAll(".text-panel")].map(x=>x.textContent).join("\n\n");
   speakText(texts,$("speakContentBtn"));
 });
-$("stopSpeechBtn").addEventListener("click",stopSpeech);
-$("stopContentSpeechBtn").addEventListener("click",stopSpeech);
+$("stopSpeechBtn").addEventListener("click",()=>toggleSpeechPause($("stopSpeechBtn")));
+$("stopContentSpeechBtn").addEventListener("click",()=>toggleSpeechPause($("stopContentSpeechBtn")));
 window.addEventListener("beforeunload",stopSpeech);
+
+
+const howModal=$("howModal"),howBtn=$("howBtn"),closeHowBtn=$("closeHowBtn");
+let instructionsLoaded=false;
+function renderInstructionText(text){const box=$("instructionsContent");box.innerHTML="";const wrap=document.createElement("div");wrap.className="instruction-text";text.replace(/\r\n/g,"\n").split(/\n\s*\n+/).map(x=>x.trim()).filter(Boolean).forEach(block=>{const el=document.createElement(/^#{1,3}\s+/.test(block)?"h3":"p");el.textContent=block.replace(/^#{1,3}\s+/,"");wrap.appendChild(el);});box.appendChild(wrap);}
+async function loadInstructions(){const box=$("instructionsContent");box.innerHTML='<div class="loading"><span class="spinner"></span>Anleitung wird geladen …</div>';try{const items=await githubContents(["Anleitung"]);const files=items.filter(x=>x.type==="file");const names=["anleitung.txt","anleitung.md","readme.md"];const textFile=names.map(n=>files.find(f=>f.name.toLowerCase()===n)).find(Boolean)||files.find(f=>/\.(txt|md)$/i.test(f.name));if(!textFile)throw new Error('Keine .txt- oder .md-Datei gefunden.');renderInstructionText(await getText(textFile.download_url));for(const file of files.filter(f=>/\.(png|jpe?g|webp)$/i.test(f.name))){const img=document.createElement("img");img.className="instruction-media";img.src=file.download_url;img.alt=friendlyName(file.name);box.appendChild(img);}instructionsLoaded=true;}catch(e){box.innerHTML=`<div class="instruction-error"><strong>Anleitung konnte nicht geladen werden.</strong><br>${escapeHtml(e.message)}<br><br>Lege zum Beispiel <strong>Anleitung/anleitung.txt</strong> an.</div>`;}}
+async function openHow(){howModal.classList.add("open");howModal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";if(!instructionsLoaded)await loadInstructions();setTimeout(()=>closeHowBtn.focus(),80);}
+function closeHow(){howModal.classList.remove("open");howModal.setAttribute("aria-hidden","true");document.body.style.overflow="";howBtn.focus();}
+howBtn.addEventListener("click",openHow);closeHowBtn.addEventListener("click",closeHow);
+howModal.addEventListener("click",e=>{if(e.target===howModal)closeHow();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&howModal.classList.contains("open"))closeHow();});
 
 async function initialize(){
   detectRepository();
