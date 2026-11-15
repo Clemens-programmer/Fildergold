@@ -19,7 +19,7 @@ body::before,body::after{content:"";position:fixed;z-index:-1;border-radius:50%;
 .top-actions{display:flex;align-items:center;gap:10px}.modal-backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(3,7,13,.76);backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:.25s}.modal-backdrop.open{opacity:1;visibility:visible}.modal{width:min(720px,100%);max-height:min(760px,90vh);overflow:auto;background:linear-gradient(145deg,#17243a,#101827);border:1px solid rgba(255,255,255,.14);border-radius:24px;box-shadow:0 35px 100px rgba(0,0,0,.55);padding:clamp(24px,5vw,44px);transform:translateY(20px) scale(.97);transition:.3s cubic-bezier(.2,.8,.2,1)}.modal-backdrop.open .modal{transform:none}.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.modal h2{font-size:clamp(30px,5vw,48px);margin-bottom:14px}.instructions{display:grid;gap:14px;margin-top:24px;counter-reset:steps}.instruction{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035)}.instruction::before{counter-increment:steps;content:counter(steps);display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--accent);color:#181208;font-weight:900}.instruction h3{margin:1px 0 5px;font-size:17px}.instruction p{margin:0;color:var(--muted);line-height:1.55}.modal-note{margin:18px 0 0;padding:14px 16px;border-left:3px solid var(--accent);background:rgba(227,179,75,.08);color:#dae2ec;border-radius:0 12px 12px 0;line-height:1.55}
 @media(max-width:650px){.topbar{align-items:flex-start}.top-actions{flex-wrap:wrap;justify-content:flex-end}.icon-only{width:44px!important;flex:none!important}.help-btn{font-size:13px}.icon-only::after{display:none}.instruction{grid-template-columns:38px 1fr}}
 @media(prefers-reduced-motion:reduce){body::before,body::after{display:none}}
-.instruction-text{display:grid;gap:14px}.instruction-text p{margin:0;color:#dce4ee;line-height:1.7}.instruction-text h3{color:var(--accent2)}.instruction-media{width:100%;max-height:420px;object-fit:contain;border-radius:14px}.instruction-error{color:var(--muted);line-height:1.65}</style>
+.instruction-text{display:grid;gap:14px}.instruction-text p{margin:0;color:#dce4ee;line-height:1.7}.instruction-text h3{color:var(--accent2)}.instruction-media{width:100%;max-height:420px;object-fit:contain;border-radius:14px}.instruction-error{color:var(--muted);line-height:1.65}.progress-card{display:grid;gap:12px}.progress-summary{padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.04)}.progress-summary strong{display:block;color:var(--accent2);font-size:18px;margin-bottom:6px}.progress-summary span{color:var(--muted);line-height:1.55}.progress-history{display:flex;flex-wrap:wrap;gap:8px}.progress-chip{padding:8px 11px;border-radius:10px;background:rgba(227,179,75,.12);border:1px solid rgba(227,179,75,.26);color:var(--accent2);font-weight:800}.danger-btn{border:1px solid rgba(255,140,130,.42);background:rgba(255,140,130,.09);color:#ffaaa2;padding:11px 15px;border-radius:12px;font-weight:800;display:inline-flex;align-items:center;gap:8px}.danger-btn:hover{background:rgba(255,140,130,.16)}.loading-overlay{position:fixed;inset:0;z-index:90;display:none;place-items:center;background:rgba(3,7,13,.78);backdrop-filter:blur(10px)}.loading-overlay.open{display:grid}.loading-box{display:grid;justify-items:center;gap:14px;padding:28px 34px;border:1px solid var(--line);border-radius:20px;background:var(--panel);box-shadow:var(--shadow);color:var(--muted)}.loading-box .spinner{width:30px;height:30px}</style>
 </head>
 <body>
   <div class="shell">
@@ -27,7 +27,7 @@ body::before,body::after{content:"";position:fixed;z-index:-1;border-radius:50%;
     <section class="book" aria-live="polite">
       <div class="topbar">
         <div class="crumb"><span>Geschichte</span><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg><strong id="crumbTitle">Auswahl</strong></div>
-        <div class="top-actions"><button id="howBtn" class="help-btn" type="button"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.7 1.8c-1 .7-1.5 1.2-1.5 2.2M12 17h.01"/></svg>So funktioniert’s</button><button id="homeBtn" class="icon-btn icon-only hide" type="button" aria-label="Zur Geschichtenauswahl" data-tooltip="Geschichten"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></button></div>
+        <div class="top-actions"><button id="progressBtn" class="icon-btn icon-only" type="button" aria-label="Spielstand anzeigen" data-tooltip="Spielstand"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></button><button id="howBtn" class="help-btn" type="button"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.7 1.8c-1 .7-1.5 1.2-1.5 2.2M12 17h.01"/></svg>So funktioniert’s</button><button id="homeBtn" class="icon-btn icon-only hide" type="button" aria-label="Zur Geschichtenauswahl" data-tooltip="Geschichten"><svg class="svg-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10M9 20v-6h6v6"/></svg></button></div>
       </div>
       <main>
         <section id="selectView" class="view active">
@@ -41,7 +41,7 @@ body::before,body::after{content:"";position:fixed;z-index:-1;border-radius:50%;
       </main>
     </section>
   </div>
-<div id="howModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="howTitle" aria-hidden="true"><div class="modal"><div class="modal-head"><div><p class="eyebrow">Spielanleitung</p><h2 id="howTitle">So funktioniert Fildergold</h2></div><button id="closeHowBtn" class="icon-btn icon-only" type="button" aria-label="Anleitung schließen" data-tooltip="Schließen"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div id="instructionsContent" class="instructions"><div class="loading"><span class="spinner"></span>Anleitung wird geladen …</div></div></div></div>
+<div id="progressModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="progressTitle" aria-hidden="true"><div class="modal"><div class="modal-head"><div><p class="eyebrow">Lokaler Speicher</p><h2 id="progressTitle">Dein Spielstand</h2></div><button id="closeProgressBtn" class="icon-btn icon-only" type="button" aria-label="Spielstand schließen" data-tooltip="Schließen"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div id="progressContent" class="progress-card"></div><div class="next-row"><button id="deleteProgressBtn" class="danger-btn" type="button"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"/></svg>Spielstand löschen</button></div></div></div><div id="sectionLoader" class="loading-overlay" aria-live="polite"><div class="loading-box"><span class="spinner"></span><strong>Nummer wird vollständig geladen …</strong><span>Text und Medien werden vorbereitet.</span></div></div><div id="howModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="howTitle" aria-hidden="true"><div class="modal"><div class="modal-head"><div><p class="eyebrow">Spielanleitung</p><h2 id="howTitle">So funktioniert Fildergold</h2></div><button id="closeHowBtn" class="icon-btn icon-only" type="button" aria-label="Anleitung schließen" data-tooltip="Schließen"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div id="instructionsContent" class="instructions"><div class="loading"><span class="spinner"></span>Anleitung wird geladen …</div></div></div></div>
 <script>
 /*
   GitHub-Konfiguration:
@@ -55,7 +55,9 @@ const CONFIG = {
   numbersFolder: "Numbers"
 };
 
-const state = { owner:"", repo:"", branch:CONFIG.branch, title:"", introPages:[], introIndex:0 };
+const state = { owner:"", repo:"", branch:CONFIG.branch, title:"", introPages:[], introIndex:0, view:"selectView", number:"", visited:[] };
+const SAVE_KEY="fildergold-save-v1";
+let restoring=false;
 const $ = id => document.getElementById(id);
 const views = ["selectView","introView","numberView","contentView"];
 
@@ -80,7 +82,7 @@ async function detectDefaultBranch(){
     state.branch="main";
   }
 }
-function showView(id){ stopSpeech(); views.forEach(v=>$(v).classList.toggle("active",v===id)); window.scrollTo({top:0,behavior:"smooth"}); }
+function showView(id){ stopSpeech(); state.view=id; views.forEach(v=>$(v).classList.toggle("active",v===id)); if(!restoring)saveProgress(); window.scrollTo({top:0,behavior:"smooth"}); }
 function apiPath(parts){
   const path=parts.map(encodeURIComponent).join("/");
   return `https://api.github.com/repos/${encodeURIComponent(state.owner)}/${encodeURIComponent(state.repo)}/contents/${path}?ref=${encodeURIComponent(state.branch)}`;
@@ -96,6 +98,10 @@ async function getText(url){ const r=await fetch(url); if(!r.ok) throw new Error
 function friendlyName(name){ try{return decodeURIComponent(name).replace(/[-_]+/g," ");}catch{return name;} }
 function setBusy(container,text){ container.innerHTML=`<div class="loading"><span class="spinner"></span>${text}</div>`; }
 
+function readProgress(){try{return JSON.parse(localStorage.getItem(SAVE_KEY)||"null");}catch{return null;}}
+function saveProgress(){if(restoring)return;localStorage.setItem(SAVE_KEY,JSON.stringify({title:state.title,view:state.view,introIndex:state.introIndex,number:state.number,visited:state.visited,updatedAt:new Date().toISOString()}));}
+function clearProgress(){localStorage.removeItem(SAVE_KEY);state.title="";state.number="";state.visited=[];state.introIndex=0;state.view="selectView";$("crumbTitle").textContent="Auswahl";$("homeBtn").classList.add("hide");showView("selectView");renderProgress();}
+function renderProgress(){const box=$("progressContent"),saved=readProgress();if(!saved||!saved.title){box.innerHTML='<div class="empty">Noch kein Spielstand vorhanden.</div>';$("deleteProgressBtn").disabled=true;return;}$("deleteProgressBtn").disabled=false;const visited=Array.isArray(saved.visited)?saved.visited:[];box.innerHTML=`<div class="progress-summary"><strong>${escapeHtml(friendlyName(saved.title))}</strong><span>${saved.number?`Aktuelle Nummer: ${escapeHtml(saved.number)}`:`Einleitung · Seite ${(saved.introIndex||0)+1}`}<br>Besuchte Nummern: ${visited.length}</span></div><div class="progress-history">${visited.map(n=>`<span class="progress-chip">${escapeHtml(n)}</span>`).join("")||'<span class="empty">Noch keine Nummer besucht.</span>'}</div>`;}
 async function loadStories(){
   const box=$("storyList"); setBusy(box,"Geschichten werden geladen …");
   try{
@@ -111,7 +117,7 @@ async function loadStories(){
     });
   }catch(e){box.innerHTML=`<div class="empty"><strong>Geschichten konnten nicht geladen werden.</strong><br>${escapeHtml(e.message)}</div>`;}
 }
-async function openStory(folder){
+async function openStory(folder,restoreIndex=0){
   state.title=folder; $("crumbTitle").textContent=friendlyName(folder); $("homeBtn").classList.remove("hide");
   $("introTitle").textContent=friendlyName(folder); showView("introView"); setBusy($("introText"),"Einleitung wird geladen …"); $("nextBtn").disabled=true;
   try{
@@ -120,7 +126,7 @@ async function openStory(folder){
     if(!story) throw new Error("In dieser Geschichte fehlt die Datei story.txt.");
     const text=(await getText(story.download_url)).replace(/\r\n/g,"\n").trim();
     state.introPages=text?text.split(/\n\s*\n+/).map(x=>x.trim()).filter(Boolean):["Die historische Erzählung beginnt …"];
-    state.introIndex=0; renderIntro(); $("nextBtn").disabled=false;
+    state.introIndex=Math.min(Math.max(0,restoreIndex),state.introPages.length-1); renderIntro(); $("nextBtn").disabled=false; saveProgress();
   }catch(e){$("introText").innerHTML=`<div class="empty">${escapeHtml(e.message)}</div>`;$("pageCounter").textContent="";}
 }
 function renderIntro(){
@@ -132,40 +138,29 @@ $("nextBtn").addEventListener("click",()=>{
   if(state.introIndex<state.introPages.length-1){state.introIndex++;renderIntro();}
   else{showNumberInput();}
 });
-function showNumberInput(){showView("numberView");$("numberMessage").textContent="";$("numberInput").value="";setTimeout(()=>$("numberInput").focus(),100);}
+function showNumberInput(){showView("numberView");$("numberMessage").textContent="";$("numberInput").value=state.number||"";setTimeout(()=>$("numberInput").focus(),100);}
 
 $("numberForm").addEventListener("submit",async e=>{
   e.preventDefault(); const number=$("numberInput").value.trim();
   if(!/^\d+$/.test(number)){ $("numberMessage").textContent="Bitte gib nur Ziffern ein."; return; }
-  $("numberMessage").textContent="Abschnitt wird gesucht …";
-  try{
-    const items=await githubContents([CONFIG.numbersFolder,state.title,number]);
-    await renderSection(number,items); $("numberMessage").textContent="";
-  }catch(err){$("numberMessage").textContent=err.message==="Nicht gefunden"?`Die Nummer ${number} gibt es in dieser Geschichte nicht.`:err.message;}
+  $("numberMessage").textContent="Abschnitt wird gesucht …";$("sectionLoader").classList.add("open");
+  try{const items=await githubContents([CONFIG.numbersFolder,state.title,number]);await renderSection(number,items);$("numberMessage").textContent="";}
+  catch(err){$("numberMessage").textContent=err.message==="Nicht gefunden"?`Die Nummer ${number} gibt es in dieser Geschichte nicht.`:err.message;}
+  finally{$("sectionLoader").classList.remove("open");}
 });
 async function renderSection(number,items){
-  $("sectionNumber").textContent=number; $("contentTitle").textContent=`Nummer ${number}`; const box=$("contentFiles"); setBusy(box,"Inhalte werden geladen …"); showView("contentView");
-  const files=items.filter(x=>x.type==="file").sort((a,b)=>a.name.localeCompare(b.name,"de",{numeric:true}));
-  box.innerHTML="";
-  if(!files.length){box.innerHTML='<div class="empty">Dieser Abschnitt enthält noch keine Dateien.</div>';return;}
-  for(const file of files){
-    const ext=file.name.split(".").pop().toLowerCase(); let el;
-    if(ext==="txt"){
-      el=document.createElement("div");el.className="text-panel";
-      try{el.textContent=await getText(file.download_url);}catch{el.textContent=`${file.name} konnte nicht geladen werden.`;}
-    } else if(["png","jpg","jpeg","webp","gif"].includes(ext)){
-      el=document.createElement("img");el.className="media";el.src=file.download_url;el.alt=friendlyName(file.name);el.loading="lazy";
-    } else if(ext==="mp4"){
-      el=document.createElement("video");el.className="media";el.src=file.download_url;el.controls=true;el.preload="metadata";
-    } else if(ext==="mp3"){
-      el=document.createElement("audio");el.className="media";el.src=file.download_url;el.controls=true;el.preload="metadata";
-    } else continue;
-    box.appendChild(el);
-  }
-  if(!box.children.length)box.innerHTML='<div class="empty">Keine unterstützten Dateien gefunden.</div>';
+  const supported=items.filter(x=>x.type==="file"&&/\.(txt|png|jpe?g|webp|gif|mp4|mp3)$/i.test(x.name));
+  if(!supported.length)throw new Error("Dieser Abschnitt enthält keine unterstützten Dateien.");
+  const texts=supported.filter(f=>/\.txt$/i.test(f.name)).sort((a,b)=>a.name.localeCompare(b.name,"de",{numeric:true}));
+  const media=supported.filter(f=>!/\.txt$/i.test(f.name)).sort((a,b)=>a.name.localeCompare(b.name,"de",{numeric:true}));
+  // Sämtliche Dateien werden zuerst vollständig angefordert. Erst danach wechselt die Ansicht.
+  const loaded=await Promise.all([...texts,...media].map(async file=>{const r=await fetch(file.download_url);if(!r.ok)throw new Error(`${file.name} konnte nicht geladen werden.`);return {file,data:/\.txt$/i.test(file.name)?await r.text():await r.blob()};}));
+  const box=$("contentFiles");box.innerHTML="";
+  for(const {file,data} of loaded){const ext=file.name.split(".").pop().toLowerCase();let el;if(ext==="txt"){el=document.createElement("div");el.className="text-panel";el.textContent=data;}else{const url=URL.createObjectURL(data);if(["png","jpg","jpeg","webp","gif"].includes(ext)){el=document.createElement("img");el.alt=friendlyName(file.name);}else if(ext==="mp4"){el=document.createElement("video");el.controls=true;el.preload="auto";}else{el=document.createElement("audio");el.controls=true;el.preload="auto";}el.className="media";el.src=url;}box.appendChild(el);}
+  state.number=number;if(!state.visited.includes(number))state.visited.push(number);$("sectionNumber").textContent=number;$("contentTitle").textContent=`Nummer ${number}`;showView("contentView");saveProgress();
 }
 function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));}
-$("anotherBtn").addEventListener("click",showNumberInput);
+$("anotherBtn").addEventListener("click",()=>{state.number="";showNumberInput();});
 $("homeBtn").addEventListener("click",()=>{state.title="";$("crumbTitle").textContent="Auswahl";$("homeBtn").classList.add("hide");showView("selectView");});
 
 
@@ -233,6 +228,11 @@ $("stopContentSpeechBtn").addEventListener("click",()=>toggleSpeechPause($("stop
 window.addEventListener("beforeunload",stopSpeech);
 
 
+const progressModal=$("progressModal"),progressBtn=$("progressBtn"),closeProgressBtn=$("closeProgressBtn");
+function openProgress(){renderProgress();progressModal.classList.add("open");progressModal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";}
+function closeProgress(){progressModal.classList.remove("open");progressModal.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+progressBtn.addEventListener("click",openProgress);closeProgressBtn.addEventListener("click",closeProgress);progressModal.addEventListener("click",e=>{if(e.target===progressModal)closeProgress();});
+$("deleteProgressBtn").addEventListener("click",()=>{if(confirm("Spielstand wirklich vollständig löschen?")){closeProgress();clearProgress();}});
 const howModal=$("howModal"),howBtn=$("howBtn"),closeHowBtn=$("closeHowBtn");
 let instructionsLoaded=false;
 function renderInstructionText(text){const box=$("instructionsContent");box.innerHTML="";const wrap=document.createElement("div");wrap.className="instruction-text";text.replace(/\r\n/g,"\n").split(/\n\s*\n+/).map(x=>x.trim()).filter(Boolean).forEach(block=>{const el=document.createElement(/^#{1,3}\s+/.test(block)?"h3":"p");el.textContent=block.replace(/^#{1,3}\s+/,"");wrap.appendChild(el);});box.appendChild(wrap);}
@@ -243,12 +243,9 @@ howBtn.addEventListener("click",openHow);closeHowBtn.addEventListener("click",cl
 howModal.addEventListener("click",e=>{if(e.target===howModal)closeHow();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&howModal.classList.contains("open"))closeHow();});
 
-async function initialize(){
-  detectRepository();
-  await detectDefaultBranch();
-  await loadStories();
-}
-initialize();
+async function restoreProgress(){const saved=readProgress();if(!saved||!saved.title)return;restoring=true;state.visited=Array.isArray(saved.visited)?saved.visited:[];state.number=saved.number||"";try{await openStory(saved.title,saved.introIndex||0);if(saved.view==="numberView")showNumberInput();else if(saved.view==="contentView"&&saved.number){$("sectionLoader").classList.add("open");const items=await githubContents([CONFIG.numbersFolder,saved.title,saved.number]);await renderSection(saved.number,items);$("sectionLoader").classList.remove("open");}}catch(e){console.warn("Spielstand konnte nicht wiederhergestellt werden:",e);}finally{restoring=false;saveProgress();}}
+  async function initialize(){detectRepository();await detectDefaultBranch();await loadStories();await restoreProgress();}
+  initialize();
 </script>
 </body>
 </html>
